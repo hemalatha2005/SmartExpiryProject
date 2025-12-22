@@ -18,10 +18,11 @@ export default function Header({ onShowScanner }) {
         <div className="flex items-center gap-4">
           <button
             onClick={onShowScanner}
-            className="px-4 py-2 bg-[#142D4C] hover:bg-emerald-700 text-white rounded-lg shadow-sm text-sm transition"
+            className="px-3 py-2 bg-[#142D4C] text-white rounded-lg hover:bg-[#5682B1] transition"
           >
             Open Scanner
           </button>
+
 
           <div className="flex items-center gap-3">
             <div className="text-right">

@@ -1,6 +1,5 @@
 // src/pages/DashboardPage.js
 import React from "react";
-import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import StatCard from "../components/StatCard";
 import AssetCard from "../components/AssetCard";
@@ -9,7 +8,8 @@ import PromoCard from "../components/PromoCard";
 
 
 
-export default function DashboardPage({ onShowScanner }) {
+export default function DashboardPage({ onShowScanner, onShowCooking }) 
+ {
   // sample data (replace with real API later)
   const savingStats = [
     { label: "Yearly Savings", amount: "₹3,760", change: "↑ 12.5%", bg: "bg-[#e6f0ff]" },
@@ -21,7 +21,7 @@ export default function DashboardPage({ onShowScanner }) {
   return (
     <div className="flex bg-[#DFFFD8]/40 min-h-screen">
       {/* Sidebar */}
-      <Sidebar />
+
 
       {/* Main area */}
       <div className="flex-1">
@@ -80,7 +80,7 @@ export default function DashboardPage({ onShowScanner }) {
                     ].map((d, i) => (
                       <div
                         key={i}
-                        className="flex flex-col items-center justify-center p-3 rounded-xl bg-gray-50 border hover:bg-gray-100 transition"
+                        className="flex flex-col items-center justify-center p-3 rounded-xl bg-gray-50 border hover:bg-[#EEF1FF] transition"
                       >
                         {/* Day Label */}
                         <div className="font-semibold text-gray-700 mb-1">{d.day}</div>
@@ -88,10 +88,10 @@ export default function DashboardPage({ onShowScanner }) {
                         {/* Status Dot */}
                         <div
                           className={`w-3 h-3 rounded-full mb-2 ${d.status === "red"
-                              ? "bg-red-500"
-                              : d.status === "yellow"
-                                ? "bg-yellow-500"
-                                : "bg-emerald-500"
+                            ? "bg-[#D34E4E]"
+                            : d.status === "yellow"
+                              ? "bg-[#FFDE63]"
+                              : "bg-[#A3D78A]"
                             }`}
                         ></div>
 
@@ -134,7 +134,7 @@ export default function DashboardPage({ onShowScanner }) {
                   ].map((item, i) => (
                     <div
                       key={i}
-                      className="flex items-center justify-between py-4 px-2 hover:bg-slate-50 transition rounded-md"
+                      className="flex items-center justify-between py-4 px-2 hover:bg-[#EEF1FF] transition rounded-md"
                     >
 
                       {/* Left section: Icon + name */}
@@ -189,7 +189,8 @@ export default function DashboardPage({ onShowScanner }) {
             {/* Right column: promo + small cards */}
             <div className="lg:col-span-4 flex flex-col gap-3 justify-between">
               <div className="flex flex-col gap-6 h-full">
-                <PromoCard />
+                <PromoCard onExplore={onShowCooking} />
+
 
 
 
@@ -197,7 +198,14 @@ export default function DashboardPage({ onShowScanner }) {
                   <h4 className="text-md font-semibold mb-3">Quick Actions</h4>
                   <div className="grid grid-cols-2 gap-6">
                     <button className="px-5 py-10 rounded-2xl bg-emerald-50 text-emerald-700 hover:scale-105 transition">Add Item</button>
-                    <button className="px-5 py-8 rounded-2xl bg-yellow-50 text-yellow-700 hover:scale-105 transition">Scan Now</button>
+                    <button
+                      onClick={onShowScanner}
+                      className="px-5 py-8 rounded-2xl bg-yellow-50 text-yellow-700 hover:scale-105 transition"
+                    >
+                      Scan Now
+                    </button>
+
+                    {/* <button className="px-5 py-8 rounded-2xl bg-yellow-50 text-yellow-700 hover:scale-105 transition">Scan Now</button> */}
                     <button className="px-5 py-8 rounded-2xl bg-slate-100 text-slate-700 hover:scale-105 transition">View Item</button>
                     <button className="px-5 py-10 rounded-2xl bg-rose-50 text-rose-700 hover:scale-105 transition">Settings</button>
                   </div>
