@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/SmartExpiryProject/static/css/main.43df10e5.css",
+    "main.js": "/SmartExpiryProject/static/js/main.8fed7d20.js",
+    "index.html": "/SmartExpiryProject/index.html",
+    "main.43df10e5.css.map": "/SmartExpiryProject/static/css/main.43df10e5.css.map",
+    "main.8fed7d20.js.map": "/SmartExpiryProject/static/js/main.8fed7d20.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.43df10e5.css",
+    "static/js/main.8fed7d20.js"
+  ]
+}
