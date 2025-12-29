@@ -1,7 +1,5 @@
 // src/pages/CookingSuggestionsPage.js
 import React, { useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import ExpiringItemCard from "../components/ExpiringItemCard";
 import RecipeCard from "../components/RecipeCard";
 
@@ -26,12 +24,11 @@ export default function CookingInsights({ onShowScanner, onBack })
     : [];
 
   return (
-    <div className="flex bg-[#DFFFD8]/40 min-h-screen">
-      <Sidebar onShowScanner={onShowScanner} />
+    <div className="flex bg-[#F7FAFC] min-h-screen">
 
 
       <div className="flex-1">
-        <Header onShowScanner={onShowScanner} />
+      
 
 
         <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">

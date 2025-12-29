@@ -1,6 +1,5 @@
 // src/pages/DashboardPage.js
 import React from "react";
-import Header from "../components/Header";
 import StatCard from "../components/StatCard";
 import AssetCard from "../components/AssetCard";
 import PromoCard from "../components/PromoCard";
@@ -8,7 +7,7 @@ import PromoCard from "../components/PromoCard";
 
 
 
-export default function DashboardPage({ onShowScanner, onShowCooking }) 
+export default function DashboardPage({ onShowScanner, onShowCooking, onShowItems, onAddItem, onLogout }) 
  {
   // sample data (replace with real API later)
   const savingStats = [
@@ -19,13 +18,13 @@ export default function DashboardPage({ onShowScanner, onShowCooking })
 
 
   return (
-    <div className="flex bg-[#DFFFD8]/40 min-h-screen">
+    <div className="flex bg-[#F7FAFC] min-h-screen">
       {/* Sidebar */}
 
 
       {/* Main area */}
       <div className="flex-1">
-        <Header onShowScanner={onShowScanner} />
+        
 
         <main className="max-w-7xl mx-auto px-6 py-8">
           {/* Top small stat card (full width, rounded area like reference) */}
@@ -197,7 +196,7 @@ export default function DashboardPage({ onShowScanner, onShowCooking })
                 <div className="bg-white rounded-2xl p-8 shadow-sm ">
                   <h4 className="text-md font-semibold mb-3">Quick Actions</h4>
                   <div className="grid grid-cols-2 gap-6">
-                    <button className="px-5 py-10 rounded-2xl bg-emerald-50 text-emerald-700 hover:scale-105 transition">Add Item</button>
+                    <button onClick={onAddItem} className="px-5 py-10 rounded-2xl bg-emerald-50 text-emerald-700 hover:scale-105 transition">Add Item</button>
                     <button
                       onClick={onShowScanner}
                       className="px-5 py-8 rounded-2xl bg-yellow-50 text-yellow-700 hover:scale-105 transition"
@@ -206,8 +205,8 @@ export default function DashboardPage({ onShowScanner, onShowCooking })
                     </button>
 
                     {/* <button className="px-5 py-8 rounded-2xl bg-yellow-50 text-yellow-700 hover:scale-105 transition">Scan Now</button> */}
-                    <button className="px-5 py-8 rounded-2xl bg-slate-100 text-slate-700 hover:scale-105 transition">View Item</button>
-                    <button className="px-5 py-10 rounded-2xl bg-rose-50 text-rose-700 hover:scale-105 transition">Settings</button>
+                    <button onClick={onShowItems} className="px-5 py-8 rounded-2xl bg-slate-100 text-slate-700 hover:scale-105 transition">View Item</button>
+                    <button onClick={onLogout} className="px-5 py-10 rounded-2xl bg-rose-50 text-rose-700 hover:scale-105 transition">Log Out</button>
                   </div>
                 </div>
               </div>

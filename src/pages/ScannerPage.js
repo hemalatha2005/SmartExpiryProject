@@ -2,9 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Quagga from "@ericblade/quagga2";
 import { createWorker } from "tesseract.js";
-import Header from "../components/Header";
-
-
 /**
  * ScannerPage (Hybrid mode: auto + manual capture)
  *
@@ -153,7 +150,7 @@ export default function ScannerPage({ onBack, onSave }) {
         let barcodeDetector = null;
 
         const startCameraAndDetectors = async () => {
-            try {
+            try {    
                 const constraints = {
                     video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } },
                     audio: false,
@@ -481,7 +478,6 @@ export default function ScannerPage({ onBack, onSave }) {
 
             {/* Main */}
             <div className="flex-1 flex flex-col">
-                <Header />
 
                 <div className="flex justify-center items-center w-full flex-1 p-6">
                     {/* hidden canvas for manual capture OCR */}
