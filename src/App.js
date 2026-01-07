@@ -11,9 +11,24 @@ import AuthPage from "./pages/AuthPage";
 
 export default function App() {
   // AUTH STATE (PERSISTENT)
-  const [page, setPage] = useState(
-    localStorage.getItem("isAuthenticated") ? "dashboard" : "auth"
-  );
+  const [page, setPage] = useState(() => {
+    return localStorage.getItem("isAuthenticated") === "true"
+      ? "dashboard"
+      : "auth";
+  });
+
+  // eslint-disable-next-line no-unused-vars
+  const [user, setUser] = useState(() => {
+    try {
+      const stored = localStorage.getItem("user");
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  });
+
+
+
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -21,15 +36,18 @@ export default function App() {
   const openAddItemModal = () => setShowAddModal(true);
 
   const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated");
+    localStorage.clear();
+    setUser(null);
     setPage("auth");
   };
+
 
   return (
     <div className="flex min-h-screen bg-[#DFFFD8]/40">
       {/* SIDEBAR (HIDDEN ON AUTH) */}
       {page !== "auth" && (
         <Sidebar
+          user={user}
           onShowScanner={() => setPage("scanner")}
           onShowDashboard={() => setPage("dashboard")}
           onShowItems={() => setPage("items")}
@@ -53,11 +71,12 @@ export default function App() {
           {/* AUTH PAGE */}
           {page === "auth" && (
             <AuthPage
-              onAuthSuccess={() => {
-                localStorage.setItem("isAuthenticated", "true");
+              onAuthSuccess={(userData) => {
+                setUser(userData);
                 setPage("dashboard");
               }}
             />
+
           )}
 
           {/* DASHBOARD */}

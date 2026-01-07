@@ -13,6 +13,13 @@ const getStatus = (expiryDate) => {
   if (daysLeft <= 7) return { label: "Warning", color: "bg-yellow-50 text-yellow-600" };
   return { label: "Good", color: "bg-green-50 text-green-600" };
 };
+const formatDate = (dateString) =>
+  new Date(dateString).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+
 
 export default function ItemRow({ item, active, onClick }) {
   const status = getStatus(item.expiryDate);
@@ -30,11 +37,11 @@ export default function ItemRow({ item, active, onClick }) {
       <td className="py-6">{item.name}</td>
 
       <td className="text-center text-gray-600">
-        {item.importedAt}
+        {formatDate(item.importedAt)}
       </td>
 
       <td className="text-center text-gray-600">
-        {item.expiryDate}
+        {formatDate(item.expiryDate)}
       </td>
 
       <td className="text-center">

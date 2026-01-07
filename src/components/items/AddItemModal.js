@@ -6,15 +6,15 @@ export default function AddItemModal({ onClose, onAddItem }) {
   const [quantity, setQuantity] = useState(1);
   const [expiryDate, setExpiryDate] = useState("");
 
+  const isValid = name.trim() && expiryDate;
+
   const handleAdd = () => {
-    if (!name || !expiryDate) return;
+    if (!isValid) return;
 
     onAddItem({
-      id: Date.now().toString(),
-      name,
-      category,
+      name: name.trim(),
+      category: category.trim(),
       quantity,
-      importedAt: new Date().toISOString().slice(0, 10),
       expiryDate,
     });
 
@@ -28,7 +28,7 @@ export default function AddItemModal({ onClose, onAddItem }) {
 
         <input
           className="w-full border rounded-lg p-2 mb-3"
-          placeholder="Item name"
+          placeholder="Item name *"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -44,9 +44,8 @@ export default function AddItemModal({ onClose, onAddItem }) {
           type="number"
           min="1"
           className="w-full border rounded-lg p-2 mb-3"
-          placeholder="Quantity"
           value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
+          onChange={(e) => setQuantity(Number(e.target.value))}
         />
 
         <input
@@ -65,8 +64,14 @@ export default function AddItemModal({ onClose, onAddItem }) {
           </button>
 
           <button
+            disabled={!isValid}
             onClick={handleAdd}
-            className="flex-1 bg-[#142D4C] text-white rounded-lg py-2 hover:bg-[#5682B1]"
+            className={`flex-1 rounded-lg py-2 text-white transition
+              ${
+                isValid
+                  ? "bg-[#142D4C] hover:bg-[#5682B1]"
+                  : "bg-gray-300 cursor-not-allowed"
+              }`}
           >
             Add Item
           </button>

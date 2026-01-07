@@ -4,88 +4,79 @@ import ItemsTable from "../components/items/ItemsTable";
 import ItemDetailsPanel from "../components/items/ItemDetailsPanel";
 import AddItemModal from "../components/items/AddItemModal";
 
-/* ----------------------------------------
-   HELPER: add days relative to today
----------------------------------------- */
-const addDays = (days) => {
-  const d = new Date();
-  d.setDate(d.getDate() + days);
-  return d.toISOString().slice(0, 10);
-};
-
-/* ----------------------------------------
-   DUMMY DATA (2 red, 2 yellow, 2 green)
----------------------------------------- */
-const initialItems = [
-  // 🔴 RED (0–3 days)
-  {
-    id: "1",
-    name: "Milk",
-    category: "Dairy",
-    quantity: 1,
-    importedAt: addDays(-2),
-    expiryDate: addDays(1),
-  },
-  {
-    id: "2",
-    name: "Curd",
-    category: "Dairy",
-    quantity: 1,
-    importedAt: addDays(-3),
-    expiryDate: addDays(2),
-  },
-
-  // 🟡 YELLOW (4–7 days)
-  {
-    id: "3",
-    name: "Tomato",
-    category: "Vegetables",
-    quantity: 4,
-    importedAt: addDays(-1),
-    expiryDate: addDays(5),
-  },
-  {
-    id: "4",
-    name: "Onion",
-    category: "Vegetables",
-    quantity: 6,
-    importedAt: addDays(-1),
-    expiryDate: addDays(6),
-  },
-
-  // 🟢 GREEN (8+ days)
-  {
-    id: "5",
-    name: "Rice",
-    category: "Grains",
-    quantity: 1,
-    importedAt: addDays(-5),
-    expiryDate: addDays(20),
-  },
-  {
-    id: "6",
-    name: "Pasta",
-    category: "Grains",
-    quantity: 2,
-    importedAt: addDays(-4),
-    expiryDate: addDays(15),
-  },
-];
 
 export default function ItemsPage() {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const handleRemoveItem = async (itemId) => {
+    try {
+      await fetch(`http://localhost:5000/api/items/${itemId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+
+      setItems((prev) => prev.filter((item) => item._id !== itemId));
+      setSelectedItem(null);
+    } catch (err) {
+      console.error("Failed to delete item", err);
+    }
+  };
+
+  const handleAddItem = async (itemData) => {
+    try {
+      const res = await fetch("http://localhost:5000/api/items", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: JSON.stringify(itemData),
+      });
+
+      const savedItem = await res.json();
+
+      setItems((prev) => [...prev, savedItem]);
+      setSelectedItem(savedItem);
+    } catch (err) {
+      console.error("Failed to add item", err);
+    }
+  };
+
 
   useEffect(() => {
-    setItems(initialItems);
-    setSelectedItem(initialItems[0]);
+    const fetchItems = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/items", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+
+        const data = await res.json();
+
+        setItems(Array.isArray(data) ? data : []);
+        setSelectedItem(data[0] || null);
+      } catch (err) {
+        console.error("Failed to fetch items", err);
+        setItems([]);
+      }
+    };
+
+    fetchItems();
   }, []);
+
+
 
   return (
     <div className="flex gap-6 p-6 bg-[#F7FAFC] min-h-full">
       {/* LEFT PANEL */}
-      <ItemDetailsPanel item={selectedItem} />
+      <ItemDetailsPanel
+        item={selectedItem}
+        onRemove={handleRemoveItem}
+      />
 
       {/* RIGHT PANEL */}
       <div className="flex-1 bg-white rounded-xl shadow-sm p-4">
@@ -110,9 +101,11 @@ export default function ItemsPage() {
       {showAddModal && (
         <AddItemModal
           onClose={() => setShowAddModal(false)}
-          onAddItem={(item) => setItems([...items, item])}
+          onAddItem={handleAddItem}
         />
+
       )}
+
     </div>
   );
 }

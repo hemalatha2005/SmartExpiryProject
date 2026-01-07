@@ -14,13 +14,20 @@ const NavItem = ({ icon, label, collapsed, onClick }) => (
     )}
   </div>
 );
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+const fullName = user?.fullName || "User";
+const email = user?.email || "";
+const initial = fullName.charAt(0).toUpperCase();
+
 
 export default function Sidebar({
   onShowScanner,
   onShowDashboard,
   onShowItems,
   collapsed,
-  onToggleSidebar
+  onToggleSidebar,
+  user
 }) {
   return (
     <aside
@@ -83,6 +90,7 @@ export default function Sidebar({
         </nav>
 
         {/* ACCOUNT */}
+        {/* ACCOUNT */}
         <div className="mt-10">
           {!collapsed && (
             <div className="text-xs text-gray-400 uppercase mb-3">
@@ -91,18 +99,21 @@ export default function Sidebar({
           )}
 
           <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition">
-            <div className="w-8 h-8 rounded-full bg-gray-300/20 flex items-center justify-center">
-              HN
+            {/* AVATAR */}
+            <div className="w-8 h-8 rounded-full bg-gray-300/20 flex items-center justify-center font-semibold">
+              {initial}
             </div>
 
             {!collapsed && (
               <div className="text-sm">
-                <div className="font-medium">Hemalatha</div>
-                <div className="text-xs text-gray-400">View profile</div>
+                <div className="font-medium">{fullName}</div>
+                <div className="text-xs text-gray-400">{email}</div>
               </div>
             )}
           </div>
         </div>
+
+
 
       </div>
     </aside>

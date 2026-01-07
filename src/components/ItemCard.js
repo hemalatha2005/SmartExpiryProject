@@ -11,7 +11,7 @@ export default function ItemCard({ item, onDelete }) {
         <div className="flex justify-between items-start">
           <div>
             <h4 className="text-xl font-semibold">{item.productName}</h4>
-            <p className="text-sm text-gray-500">Expiry: {item.expiryDate}</p>
+            <p className="text-sm text-gray-500">Expiry: {formatDate(item.expiryDate)}</p>
           </div>
 
           <div className="text-right">
